@@ -58,6 +58,20 @@ class Rent extends Secure_area {
         return $list;
         
     }
+
+    function get_rooms_by_dates(){
+        
+        $min_date = $this->input->post('min_date');
+        $max_date = $this->input->post('max_date');
+
+        $min_date = DateTime::createFromFormat('d/m/Y', $min_date)->format('Y-m-d');
+        $max_date = DateTime::createFromFormat('d/m/Y', $max_date)->format('Y-m-d');
+
+        $res = $this->Rooms->get_rooms_by_dates($min_date,$max_date);
+        
+        echo json_encode(array('ok' => true, 'rooms' => $res ));
+  
+    }
     
     function get_available_rooms($min_date,$max_date,$room_type){
         

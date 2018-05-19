@@ -277,21 +277,80 @@
             dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
             monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
             monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"],
-            onSelect: function (dateText, inst) {
-                $("#end_date").datepicker("option", "minDate", $("#start_date").datepicker("getDate"));
 
-                $.ajax({
+        }).on("changeDate", function (e) { 
+
+            var valor_actual = $(this).val();
+            var valor_fecha_final = $("#end_date").val();
+
+            var data = {
+                'min_date': valor_actual,
+                'max_date': valor_fecha_final
+            };
+
+
+            $.ajax({
                     type: 'post',
-                    dataType: 'html',
-                    url: '<?php echo base_url("rent/get_vailable_rooms");?>',
+                    dataType: 'json',
+                    url: '<?php echo base_url("rent/get_rooms_by_dates");?>',
                     data: data,
                     success: function (data) {
-                        $('#lista_convocados').html('<option value="" selected > Seleccione Lista </option>');
-                        $('#lista_convocados').append(data);
-                    }
-                });
+                        
+                        lista_rooms = data.rooms
+                        html = '';
 
-            }
+                        $.each( lista_rooms, function( index, value ){
+                            
+                            idroom = $(this)[0].idroom;
+                            number = $(this)[0].number;
+                            windows = $(this)[0].window;
+                            status = $(this)[0].status;
+                            abreviation = $(this)[0].abreviation;
+                            background = '';
+                            row = index + 1;
+                            ventana = '<i class="fa fa-bookmark-o"></i>';
+
+
+                            switch (status) {
+                                case '1': background = 'btn-white'; break;
+                                case '2': background = 'btn-primary'; break;
+                                case '3': background = 'btn-warning'; break;
+                                case '4': background = 'btn-danger'; break;
+                                case '5': background = 'btn-blue-sky'; break;
+                                case '6': background = 'btn-yellow'; break;
+                                case '7': background = 'btn-grey'; break;
+                                case '8': background = 'btn-pink'; break;
+                            }
+
+                            if( row == 1){
+                                html+='<div class="row no-margins">';
+                            }
+
+                            if( row % 8 == 0){
+
+                                html+='<div class="col-sm-room">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                if(windows != null){ html+=ventana; } 
+                                html+='   '+number+'<br>'+abreviation+'</button></div>';
+
+                                if( row != lista_rooms.length){
+                                    html+='<div class="row no-margins">';
+                                }
+                               
+                            } else {
+                                html+='<div class="col-sm-room">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                if(windows != null){ html+=ventana; } 
+                                html+='   '+number+'<br>'+abreviation+'</button></div>';          
+                            }
+
+                        });
+                        
+                        $("#room").html(html);            
+             
+                    }
+            });
+           
         });
 
         $('#end_date').datepicker({
@@ -303,20 +362,79 @@
             dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
             monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
             monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"],
-            onSelect: function (dateText, inst) {
-                $("#start_date").datepicker("option", "maxDate", $("#end_date").datepicker("getDate"));
+        }).on("changeDate", function (e) { 
 
-                $.ajax({
+            var valor_actual = $(this).val();
+            var valor_fecha_inicial = $("#start_date").val();
+
+            var data = {
+                'min_date': valor_fecha_inicial,
+                'max_date': valor_actual
+            };
+
+
+            $.ajax({
                     type: 'post',
-                    dataType: 'html',
-                    url: '<?php echo base_url("admin/actividades/get_lista_tipo_actividad");?>',
+                    dataType: 'json',
+                    url: '<?php echo base_url("rent/get_rooms_by_dates");?>',
                     data: data,
                     success: function (data) {
-                        $('#lista_convocados').html('<option value="" selected > Seleccione Lista </option>');
-                        $('#lista_convocados').append(data);
+                        
+                        lista_rooms = data.rooms
+                        html = '';
+
+                        $.each( lista_rooms, function( index, value ){
+                            
+                            idroom = $(this)[0].idroom;
+                            number = $(this)[0].number;
+                            windows = $(this)[0].window;
+                            status = $(this)[0].status;
+                            abreviation = $(this)[0].abreviation;
+                            background = '';
+                            row = index + 1;
+                            ventana = '<i class="fa fa-bookmark-o"></i>';
+
+
+                            switch (status) {
+                                case '1': background = 'btn-white'; break;
+                                case '2': background = 'btn-primary'; break;
+                                case '3': background = 'btn-warning'; break;
+                                case '4': background = 'btn-danger'; break;
+                                case '5': background = 'btn-blue-sky'; break;
+                                case '6': background = 'btn-yellow'; break;
+                                case '7': background = 'btn-grey'; break;
+                                case '8': background = 'btn-pink'; break;
+                            }
+
+                            if( row == 1){
+                                html+='<div class="row no-margins">';
+                            }
+
+                            if( row % 8 == 0){
+
+                                html+='<div class="col-sm-room">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                if(windows != null){ html+=ventana; } 
+                                html+='   '+number+'<br>'+abreviation+'</button></div>';
+
+                                if( row != lista_rooms.length){
+                                    html+='<div class="row no-margins">';
+                                }
+                               
+                            } else {
+                                html+='<div class="col-sm-room">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                if(windows != null){ html+=ventana; } 
+                                html+='   '+number+'<br>'+abreviation+'</button></div>';          
+                            }
+
+                        });
+                        
+                        $("#room").html(html);            
+             
                     }
-                });
-            }
+            });
+
         });
 
 

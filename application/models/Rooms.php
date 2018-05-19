@@ -112,6 +112,20 @@ class Rooms extends CI_Model {
         return $query->result();
         
     }
+
+    function get_rooms_by_dates($min_date,$max_date){
+
+        $this->db->select('r.idroom,r.number,r.window,ifnull(re.status,"1") as status,rt.abreviation');
+        $this->db->from('room r');
+        $this->db->join('rent re', '(re.idroom = r.idroom) and (re.start_date < "'.$max_date.'" ) and (re.finish_date > "'.$min_date.'")','left');
+        $this->db->join('roomtype rt','rt.idroomtype = r.idroomtype','left');
+        $this->db->order_by('r.order','asc');
+        
+        $query = $this->db->get();
+        
+        return $query->result();
+
+    }
     
     function get_rooms($status = 0){
         
