@@ -456,20 +456,27 @@
 
                             $("#tableitems").find("tbody").append(html);
 
-                            $('.input_date').datepicker({
-
-                                format: 'dd/mm/yyyy',
-                                language: 'es',
-                                firstDay: 1,
-                                minDate: 0,
-                                startDate: new Date(),
-                                dayNames: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
-                                dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-                                monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-                                monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"]
-                            });
 
                         } 
+
+                        $('#tableitems tr').each(function (index, value) {
+
+                            obj_fecha_fin = $(this).find("input[name='bulk_fecha_fin[]']");
+
+                            obj_fecha_fin.datepicker({
+
+                                        format: 'dd/mm/yyyy',
+                                        language: 'es',
+                                        firstDay: 1,
+                                        minDate: 0,
+                                        startDate: new Date(),
+                                        dayNames: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+                                        dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                                        monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                                        monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"]
+                                    });
+                                    
+                        });
 
                     } else {
                         showMessage('<div class="alert alert-danger">No se pudieron cargar los Servicios</div>');

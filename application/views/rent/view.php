@@ -604,11 +604,6 @@
 
     });
 
-    function validate_room_available(idroom,mindate,maxdate){
-
-        
-        
-    }
 
 
     function setrooms(){
@@ -642,7 +637,7 @@
     }
 
     // verificar si hubo actualización en la fecha fin de un registro de room
-    $("body").on("focusin",".input_date",function(){
+    $("body").on("focusout",".input_date",function(){
 
         var valor_actual = $(this).val();
         var valor_fecha_inicial = $(this).parents('.clonedInput').find("[name='bulk_fecha_inicio[]']").val();
@@ -662,6 +657,7 @@
             'maxdate': valor_actual
         };
 
+        var that = $(this);
 
         $.ajax({
                 type: 'post',
@@ -671,21 +667,14 @@
                 success: function (data) {
 
                     if(data.ok){
-
-                        
-                        $(this).parents('.clonedInput').find("[name='bulk_quantityOrdered[]']").val(diffDays);
-                        $(this).parents('.clonedInput').find("[name='bulk_orderLineNumber[]']").val(diffDays * price - dscto );
+                        that.parents('.clonedInput').find("[name='bulk_quantityOrdered[]']").val(diffDays);
+                        that.parents('.clonedInput').find("[name='bulk_orderLineNumber[]']").val(diffDays * price - dscto );
                         update_prices();
-
                     }
 
                 }
             });
 
-        /*$(this).parents('.clonedInput').find("[name='bulk_quantityOrdered[]']").val(diffDays);
-        $(this).parents('.clonedInput').find("[name='bulk_orderLineNumber[]']").val(diffDays * price - dscto );
-
-        update_prices();*/
     });
     
 
@@ -741,7 +730,11 @@
                  $("#tableitems").find("tbody").append(html);
                  update_prices();
                  
-                 $('.input_date').datepicker({
+                 $('#tableitems tr').each(function (index, value) {
+
+                    obj_fecha_fin = $(this).find("input[name='bulk_fecha_fin[]']");
+
+                    obj_fecha_fin.datepicker({
 
                                 format: 'dd/mm/yyyy',
                                 language: 'es',
@@ -753,7 +746,10 @@
                                 monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
                                 monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"]
                             });
+                            
+                });
 
+                 
                  //agregamos nro de room a campo hidden:
                  setrooms();
 
