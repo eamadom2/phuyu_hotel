@@ -329,7 +329,8 @@
                             if( row % 8 == 0){
 
                                 html+='<div class="col-sm-room">';
-                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block"';
+                                if(status!='1'){ html+=' disabled>'; }else{ html+='>';}
                                 if(windows != null){ html+=ventana; } 
                                 html+='   '+number+'<br>'+abreviation+'</button></div>';
 
@@ -339,7 +340,8 @@
                                
                             } else {
                                 html+='<div class="col-sm-room">';
-                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block"';
+                                if(status!='1'){ html+=' disabled>'; }else{ html+='>';}
                                 if(windows != null){ html+=ventana; } 
                                 html+='   '+number+'<br>'+abreviation+'</button></div>';          
                             }
@@ -413,7 +415,8 @@
                             if( row % 8 == 0){
 
                                 html+='<div class="col-sm-room">';
-                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block"';
+                                if(status!='1'){ html+=' disabled>'; }else{ html+='>';}
                                 if(windows != null){ html+=ventana; } 
                                 html+='   '+number+'<br>'+abreviation+'</button></div>';
 
@@ -423,7 +426,8 @@
                                
                             } else {
                                 html+='<div class="col-sm-room">';
-                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block"';
+                                if(status!='1'){ html+=' disabled>'; }else{ html+='>';}
                                 if(windows != null){ html+=ventana; } 
                                 html+='   '+number+'<br>'+abreviation+'</button></div>';          
                             }
@@ -574,27 +578,37 @@
 
                             $("#tableitems").find("tbody").append(html);
 
-
                         } 
 
-                        $('#tableitems tr').each(function (index, value) {
+                        
+                        
 
-                            obj_fecha_fin = $(this).find("input[name='bulk_fecha_fin[]']");
+                            $('#tableitems tr').each(function (index, value) {
 
-                            obj_fecha_fin.datepicker({
+                                tipo = $(this).find("input[name='bulk_tipoRegistro[]']").val();
 
-                                        format: 'dd/mm/yyyy',
-                                        language: 'es',
-                                        firstDay: 1,
-                                        minDate: 0,
-                                        startDate: new Date(),
-                                        dayNames: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
-                                        dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-                                        monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-                                        monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"]
-                                    });
-                                    
-                        });
+                                obj_fecha_fin = $(this).find("input[name='bulk_fecha_fin[]']");
+
+                                if(tipo=='room'){
+
+                                    obj_fecha_fin.datepicker({
+
+                                            format: 'dd/mm/yyyy',
+                                            language: 'es',
+                                            firstDay: 1,
+                                            minDate: 0,
+                                            startDate: new Date(),
+                                            dayNames: ["Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+                                            dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                                            monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                                            monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dec"]
+                                        });
+
+                                }
+            
+                            });
+
+                        
 
                     } else {
                         showMessage('<div class="alert alert-danger">No se pudieron cargar los Servicios</div>');
@@ -1074,7 +1088,15 @@
         displayText: function(item){ return item.item_name;}
 
     });
+    
 
+    //Botón de Actualizar venta:
+    $("body").on("click","#btn_actualizar_venta",function(){
+        save_payments();
+        save_products();
+        update_products();
+        update_sale();
+    });
 
     //Función para grabar los pagos
     function save_payments(){

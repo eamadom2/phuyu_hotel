@@ -500,7 +500,8 @@
                             if( row % 8 == 0){
 
                                 html+='<div class="col-sm-room">';
-                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block"';
+                                if(status!='1'){ html+=' disabled>'; }else{ html+='>';}
                                 if(windows != null){ html+=ventana; } 
                                 html+='   '+number+'<br>'+abreviation+'</button></div>';
 
@@ -510,7 +511,8 @@
                                
                             } else {
                                 html+='<div class="col-sm-room">';
-                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block"';
+                                if(status!='1'){ html+=' disabled>'; }else{ html+='>';}
                                 if(windows != null){ html+=ventana; } 
                                 html+='   '+number+'<br>'+abreviation+'</button></div>';          
                             }
@@ -566,6 +568,7 @@
                             ventana = '<i class="fa fa-bookmark-o"></i>';
 
 
+
                             switch (status) {
                                 case '1': background = 'btn-white'; break;
                                 case '2': background = 'btn-primary'; break;
@@ -584,7 +587,8 @@
                             if( row % 8 == 0){
 
                                 html+='<div class="col-sm-room">';
-                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block"';
+                                if(status!='1'){ html+=' disabled>'; }else{ html+='>';}
                                 if(windows != null){ html+=ventana; } 
                                 html+='   '+number+'<br>'+abreviation+'</button></div>';
 
@@ -594,7 +598,8 @@
                                
                             } else {
                                 html+='<div class="col-sm-room">';
-                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block">';
+                                html+='<button idroom="'+idroom+'" nroom="'+number+'" type="button" class="btn '+background+' btn-xs btn-block"';
+                                if(status!='1'){ html+=' disabled>'; }else{ html+='>';}
                                 if(windows != null){ html+=ventana; } 
                                 html+='   '+number+'<br>'+abreviation+'</button></div>';          
                             }
